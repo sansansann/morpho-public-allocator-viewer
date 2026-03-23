@@ -40,10 +40,21 @@ export function FlowCapsTable({
     }
   };
 
-  const sortedFlowCaps = useMemo(() => {
-    if (!sortField) return flowCaps;
+  const activeFlowCaps = useMemo(
+    () => flowCaps.filter((fc) => {
+      const hasFlowCap = String(fc.maxIn) !== '0' || String(fc.maxOut) !== '0';
+      const allocation = allocationMap.get(fc.market.uniqueKey);
+      if (!allocation) return false;
+      if (String(allocation.supplyCap) === '0') return false;
+      return hasFlowCap;
+    }),
+    [flowCaps, allocationMap]
+  );
 
-    return [...flowCaps].sort((a, b) => {
+  const sortedFlowCaps = useMemo(() => {
+    if (!sortField) return activeFlowCaps;
+
+    return [...activeFlowCaps].sort((a, b) => {
       let aVal = 0;
       let bVal = 0;
 
@@ -62,7 +73,7 @@ export function FlowCapsTable({
 
       return sortDirection === 'asc' ? aVal - bVal : bVal - aVal;
     });
-  }, [flowCaps, sortField, sortDirection, allocationMap]);
+  }, [activeFlowCaps, sortField, sortDirection, allocationMap]);
 
   const SortButton = ({ field, label }: { field: SortField; label: string }) => (
     <button
