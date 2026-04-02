@@ -42,6 +42,8 @@ export const VAULT_PUBLIC_ALLOCATOR_QUERY = `
             loanAsset { symbol, address, decimals }
             collateralAsset { symbol, address, decimals }
             lltv
+            oracleAddress
+            irmAddress
           }
           maxIn
           maxOut

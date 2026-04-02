@@ -6,6 +6,7 @@ import { VaultSearchBar } from '@/components/VaultSearchBar';
 import { VaultInfoCard } from '@/components/VaultInfoCard';
 import { PublicAllocatorSummary } from '@/components/PublicAllocatorSummary';
 import { FlowCapsTable } from '@/components/FlowCapsTable';
+import { ReallocateBuilder } from '@/components/ReallocateBuilder';
 import { ReallocationHistory } from '@/components/ReallocationHistory';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
 import { VaultList } from '@/components/VaultList';
@@ -220,6 +221,15 @@ function HomeContent() {
                         allocations={vault.state.allocation}
                         assetDecimals={vault.asset.decimals}
                         assetSymbol={vault.asset.symbol}
+                        chainId={chainId}
+                      />
+                      <ReallocateBuilder
+                        vaultAddress={vault.address}
+                        flowCaps={vault.publicAllocatorConfig.flowCaps}
+                        allocations={vault.state.allocation}
+                        assetDecimals={vault.asset.decimals}
+                        assetSymbol={vault.asset.symbol}
+                        fee={String(vault.publicAllocatorConfig.fee)}
                         chainId={chainId}
                       />
                       {reallocations && reallocations.length > 0 && (
